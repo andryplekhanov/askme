@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   has_many :questions
 
+  before_validation :downcase_username
+
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: true
   validates_format_of :username, :with => /[a-zA-Z0-9\_]+/
@@ -25,6 +27,10 @@ class User < ApplicationRecord
       self.password_salt = User.hash_to_string(OpenSSL::Random.random_bytes(16))
       self.password_hash = User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(self.password, self.password_salt, ITERATIONS, DIGEST.length, DIGEST))
     end
+  end
+
+  def downcase_username
+    self.username.downcase!
   end
 
   def self.hash_to_string(password_hash)
