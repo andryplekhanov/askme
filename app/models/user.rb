@@ -9,8 +9,8 @@ class User < ApplicationRecord
 
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: true
-  validates_format_of :username, :with => /[a-zA-Z0-9][a-zA-Z0-9\_]+[a-zA-Z0-9]+/
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates_format_of :username, :with => /[a-zA-Z0-9\_]+/
+  validates_format_of :email, :with => /@/
   validates_length_of :username, :minimum => 6, :maximum => 40
 
   attr_accessor :password
